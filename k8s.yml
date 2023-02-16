@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-pool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxy-pool
+  template:
+    metadata:
+      labels:
+        app: proxy-pool
+    spec:
+      containers:
+      - image: okteto.dev/proxy-pool:1.0.0
+        name: proxy-pool
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy-pool
+spec:
+  type: ClusterIP
+  ports:
+  - name: "proxy-pool"
+    port: 5010
+  selector:
+    app: proxy-pool
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: proxy-pool
+  annotations:
+    dev.okteto.com/generate-host: proxy-pool
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: proxy-pool
+            port:
+              number: 5010
+        path: /
+        pathType: ImplementationSpecific
