@@ -13,7 +13,7 @@ spec:
         app: proxy-pool
     spec:
       containers:
-      - image: okteto.dev/proxy-pool:1.0.0
+      - image: okteto.dev/python-proxy-pool:1.0.0
         name: proxy-pool
 
 ---
