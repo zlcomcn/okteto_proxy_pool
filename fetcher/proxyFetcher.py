@@ -172,14 +172,14 @@ class ProxyFetcher(object):
                yield base64.b64decode(proxy[0]).decode('utf-8') + ':' + proxy[1]
                
     @staticmethod
-    def freeProxy12(page_count=1):
+    def freeProxy12():
         """ proxydocker """
         session = requests.session()
-        session.get('https://www.proxydocker.com/en/proxylist/country/China')
+        session.get('https://www.proxydocker.com/en/proxylist/country/China#')
         payload = {
             'token': 'GrxSMwybVBEFanCvEM_JOs3wjrBF5UxWFKygkiTsCJU',
             'country': 'China', 'city': 'all', 'state': 'all', 'port': 'all',
-            'type': 'all', 'anonymity': 'all', 'need': 'all', 'page': page_count
+            'type': 'all', 'anonymity': 'all', 'need': 'all', 'page': 1
         }
         headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
