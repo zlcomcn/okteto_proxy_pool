@@ -13,7 +13,7 @@
 __author__ = 'JHao'
 
 import re, base64
-import json
+import json, requests
 from time import sleep
 
 from util.webRequest import WebRequest
@@ -170,6 +170,24 @@ class ProxyFetcher(object):
             proxies = re.findall(r'Base64.decode\(\"(.*?)\"\)\).*?fport\" style=\'\'>(\d+)<\/span', r.text)
             for proxy in proxies:
                yield base64.b64decode(proxy[0]).decode('utf-8') + ':' + proxy[1]
+               
+    @staticmethod
+    def freeProxy12(page_count=1):
+        """ proxydocker """
+        session = requests.session()
+        session.get('https://www.proxydocker.com/en/proxylist/country/China')
+        payload = {
+            'token': 'GrxSMwybVBEFanCvEM_JOs3wjrBF5UxWFKygkiTsCJU',
+            'country': 'China', 'city': 'all', 'state': 'all', 'port': 'all',
+            'type': 'all', 'anonymity': 'all', 'need': 'all', 'page': page_count
+        }
+        headers = {
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+        }
+        r = session.post('https://www.proxydocker.com/en/api/proxylist/', data=payload, headers=headers).json()
+        for proxy in r.get('proxies'):
+            yield proxy.get('ip') + ':' + proxy.get('port')
+        
 
     # @staticmethod
     # def wallProxy01():
