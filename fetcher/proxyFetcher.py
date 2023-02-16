@@ -166,6 +166,7 @@ class ProxyFetcher(object):
         """ free-proxy """
         for i in range(1, page_count + 1):
             url = 'http://free-proxy.cz/zh/proxylist/country/CN/all/uptime/all/{}'.format(i)
+            r = WebRequest().get(url, timeout=10)
             proxies = re.findall(r'Base64.decode\(\"(.*?)\"\)\).*?fport\" style=\'\'>(\d+)<\/span', r.text)
             for proxy in proxies:
                yield base64.b64decode(proxy[0]).decode('utf-8') + ':' + proxy[1]
