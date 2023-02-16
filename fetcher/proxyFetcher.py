@@ -168,7 +168,7 @@ class ProxyFetcher(object):
             url = 'http://free-proxy.cz/zh/proxylist/country/CN/all/uptime/all/{}'.format(i)
             proxies = re.findall(r'Base64.decode\(\"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\"\)[\s\S]*?fport\" style=\'\'>\d+<\/span', r.text)
             for proxy in proxies:
-               yieid base64.b64decode(proxy[0]).decode('utf-8') + ':' + proxy[1]
+               yield base64.b64decode(proxy[0]).decode('utf-8') + ':' + proxy[1]
 
     # @staticmethod
     # def wallProxy01():
