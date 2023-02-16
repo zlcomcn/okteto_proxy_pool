@@ -34,7 +34,7 @@ class ProxyFetcher(object):
         latest_page_time = html_tree.xpath("//span[@class='thread_time_info']/text()")[0].strip()
         from datetime import datetime
         interval = datetime.now() - datetime.strptime(latest_page_time, "%Y/%m/%d %H:%M:%S")
-        if interval.seconds < 1800:  # 只采集5分钟内的更新
+        if interval.seconds < 1800:  # 只采集30分钟内的更新
             target_url = "https://www.zdaye.com/" + html_tree.xpath("//h3[@class='thread_title']/a/@href")[0].strip()
             while target_url:
                 _tree = WebRequest().get(target_url).tree
@@ -44,7 +44,7 @@ class ProxyFetcher(object):
                     yield "%s:%s" % (ip, port)
                 next_page = _tree.xpath("//div[@class='page']/a[@title='下一页']/@href")
                 target_url = "https://www.zdaye.com/" + next_page[0].strip() if next_page else False
-                sleep(5)
+                sleep(1800)
 
     @staticmethod
     def freeProxy02():
